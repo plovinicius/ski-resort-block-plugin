@@ -14,6 +14,10 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^22.3.0"
+		"@wordpress/scripts": "^22.3.0",
+		"react-select": "^5.2.2"
+	},
+	"dependencies": {
+		"@wordpress/components": "^19.7.0"
 	}
 }
