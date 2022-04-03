@@ -26,6 +26,12 @@ import save from './save';
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType('create-block/ski-resort-block', {
+	attributes: {
+		search: {
+			type: 'string'
+		}
+	},
+
 	/**
 	 * @see ./edit.js
 	 */

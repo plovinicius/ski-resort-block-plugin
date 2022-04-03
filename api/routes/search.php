@@ -1,11 +1,11 @@
 <?php
 
-class SkiResortBlockSuggestController {
+class SkiResortBlockSearchController {
  
     // Here initialize our namespace and resource name.
     public function __construct() {
         $this->namespace     = 'ski-resort-block/v1/resorts';
-        $this->resource_name = 'suggest';
+        $this->resource_name = 'search';
     }
 
     // Register our routes.
@@ -14,11 +14,11 @@ class SkiResortBlockSuggestController {
             // Here we register the readable endpoint for collections.
             array(
                 'methods'   => 'GET',
-                'callback'  => array( $this, 'get_suggest' ),
-                'permission_callback' => array( $this, 'get_suggest_permissions_check' ),
+                'callback'  => array( $this, 'get_search' ),
+                'permission_callback' => array( $this, 'get_search_permissions_check' ),
             ),
             // Register our schema callback.
-            'schema' => array( $this, 'get_suggest_item_schema' ),
+            // 'schema' => array( $this, 'get_search_item_schema' ),
         ) );
     }
 
@@ -27,7 +27,7 @@ class SkiResortBlockSuggestController {
      *
      * @param WP_REST_Request $request Current request.
      */
-    public function get_suggest_permissions_check( $request ) {
+    public function get_search_permissions_check( $request ) {
         // if ( ! current_user_can( 'read' ) ) {
         //     return new WP_Error( 'rest_forbidden', esc_html__( 'You cannot view the post resource.' ), array( 'status' => $this->authorization_status_code() ) );
         // }
@@ -39,23 +39,22 @@ class SkiResortBlockSuggestController {
      *
      * @param WP_REST_Request $request Current request.
      */
-    public function get_suggest( $request ) {
+    public function get_search( $request ) {
         $search = $request->get_param('q');
         
         // FIXME: create a constant with API path
-        $fetch = wp_remote_get( "https://api.fnugg.no/suggest/autocomplete/?q={$search}" );
+        $fetch = wp_remote_get( "https://api.fnugg.no/search/?q={$search}" );
         $body = wp_remote_retrieve_body( $fetch );
         $response = json_decode( $body );
         $data = array();
+        $responseData = $response->hits->hits;
 
-        if ( is_wp_error( $response ) || empty($response->result) ) {
+        if ( is_wp_error( $response ) || empty($responseData) ) {
             return rest_ensure_response( $data );
         }
 
-        foreach ( $response->result as $item ) {
-            $res = $this->prepare_item_for_response( $item, $request );
-            $data[] = $this->prepare_response_for_collection( $res );
-        }
+        $res = $this->prepare_item_for_response( $responseData, $request );
+        $data[] = $this->prepare_response_for_collection( $res );
 
         // Return all of our comment response data.
         return rest_ensure_response( $data );
@@ -65,10 +64,11 @@ class SkiResortBlockSuggestController {
      * Matches the post data to the schema we want.
      */
     public function prepare_item_for_response( $item, $request ) {
-        // $schema = $this->get_suggest_schema( $request );
+        // $schema = $this->get_search_schema( $request );
 
         $data = [
-            'name' => esc_attr($item->name)
+            'name' => esc_attr($item->name),
+            'site_path' => esc_attr($item->site_path)
         ];
 
         return rest_ensure_response( $data );
@@ -108,7 +108,7 @@ class SkiResortBlockSuggestController {
      *
      * @return array The sample schema for a post
      */
-    public function get_suggest_item_schema() {
+    public function get_search_item_schema() {
         if ( $this->schema ) {
             // Since WordPress 5.3, the schema can be cached in the $schema property.
             return $this->schema;
@@ -124,6 +124,10 @@ class SkiResortBlockSuggestController {
             'properties'           => array(
                 'name' => array(
                     'description'  => esc_html__( 'Resort name.', 'ski-resort-block' ),
+                    'type'         => 'string',
+                ),
+                'site_path' => array(
+                    'description'  => esc_html__( 'Path to get resort detail.', 'ski-resort-block' ),
                     'type'         => 'string',
                 ),
             ),
@@ -145,9 +149,9 @@ class SkiResortBlockSuggestController {
 }
 
 // Function to register our new routes from the controller.
-function prefix_register_my_rest_routes() {
-   $controller = new SkiResortBlockSuggestController();
+function ski_resort_block_register_search_route() {
+   $controller = new SkiResortBlockSearchController();
    $controller->register_routes();
 }
 
-add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
+add_action( 'rest_api_init', 'ski_resort_block_register_search_route' );

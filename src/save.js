@@ -24,11 +24,45 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 export default function save() {
 	return (
-		<p {...useBlockProps.save()}>
-			{__(
-				'Ski Resort Block – hello from the saved content!',
-				'ski-resort-block'
-			)}
-		</p>
+		<div {...useBlockProps.save()}>
+			<div className='srb__container'>
+				<div className='srb__header'>
+					<h2 className='srb__title'>Fonna Glacier Ski Resort</h2>
+				</div>
+
+				<div className='srb__thumbnail'>
+					<picture>
+						{/* <source srcset="mdn-logo-wide.png" media="(min-width: 600px)" /> */}
+						<img src="https://picsum.photos/200/300" alt="MDN" />
+					</picture>
+
+					<div className='srb__thumbnail__caption'>
+						<h3 className='srb__thumbnail__title'>Dagens Forhold</h3>
+						<span className='srb__thumbnail__origin'>
+							Oppdatert: 22.06.2019 - 04:29
+						</span>
+					</div>
+				</div>
+
+				<div className='srb__content'>
+					<div className='srb__item'>
+						<span>Overskyet</span>
+					</div>
+
+					<div className='srb__item'>
+						<span>10º</span>
+					</div>
+					
+					<div className='srb__item'>
+						<span>2.5 m/s</span>
+						<span>Sa og si vindstille</span>
+					</div>
+
+					<div className='srb__item'>
+						<span>Deilig varsno</span>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 }

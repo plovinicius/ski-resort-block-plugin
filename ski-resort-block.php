@@ -4,7 +4,7 @@
  * Requires at least: 5.8
  * Requires PHP:      7.0
  * Version:           0.1.0
- * Author:            The WordPress Contributors
+ * Author:            Paulo Vinicius
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       ski-resort-block
@@ -26,4 +26,5 @@ function create_block_ski_resort_block_block_init() {
 add_action( 'init', 'create_block_ski_resort_block_block_init' );
 
 
-include_once __DIR__ .'/api/routes/fnugg.php';
+require_once __DIR__ .'/api/routes/fnugg.php';
+require_once __DIR__ .'/api/routes/search.php';

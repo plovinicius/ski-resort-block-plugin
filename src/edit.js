@@ -11,7 +11,9 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
+
+import apiFetch from '@wordpress/api-fetch';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -29,13 +31,47 @@ import './editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const autoConfigs = [
+        {
+            name: 'search',
+            // The prefix that triggers this completer
+            triggerPrefix: '',
+            // The option data
+            options: [
+                { visual: '🍎', name: 'Apple', id: 1 },
+                { visual: '🍊', name: 'Orange', id: 2 },
+                { visual: '🍇', name: 'Grapes', id: 3 },
+            ],
+            // Returns a label for an option like "🍊 Orange"
+            getOptionLabel: ( option ) => (
+                <span>
+                    <span className="icon">{ option.visual }</span>
+                    { option.name }
+                </span>
+            ),
+            // Declares that options should be matched by their name
+            getOptionKeywords: ( option ) => [ option.name ],
+            // Declares that the Grapes option is disabled
+            // isOptionDisabled: ( option ) => option.name === 'Grapes',
+            getOptionCompletion: ( option ) => (
+                <span>{ option.name }</span>
+            ),
+        },
+    ];
+
 	return (
-		<p {...useBlockProps()}>
-			{__(
-				'Ski Resort Block – hello from the editor!',
-				'ski-resort-block'
-			)}
-		</p>
+		<div {...useBlockProps()}>
+			<div>
+				<RichText
+					autocompleters={ autoConfigs }
+					value={attributes.search}
+					onChange={ ( newValue ) => {
+						setAttributes( { value: newValue } );
+					} }
+					placeholder={ __(`Type ${autoConfigs[0].triggerPrefix} to choose a ${autoConfigs[0].name}`) }
+				/>
+			</div>
+		</div>
 	);
 }
