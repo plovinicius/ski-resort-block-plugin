@@ -13,6 +13,8 @@ import { __ } from '@wordpress/i18n';
  */
 import { useBlockProps } from '@wordpress/block-editor';
 
+import { IconBrillantSun } from './icons/BrilliantSun';
+
 /**
  * The save function defines the way in which the different attributes should
  * be combined into the final markup, which is then serialized by the block
@@ -28,6 +30,8 @@ export default function save() {
 			<div className='srb__container'>
 				<div className='srb__header'>
 					<h2 className='srb__title'>Fonna Glacier Ski Resort</h2>
+
+					<IconBrillantSun />
 				</div>
 
 				<div className='srb__thumbnail'>
