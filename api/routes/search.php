@@ -47,7 +47,7 @@ class SkiResortBlockSearchController {
         $body = wp_remote_retrieve_body( $fetch );
         $response = json_decode( $body );
         $data = array();
-        $responseData = $response->hits->hits;
+        $responseData = $response->hits->hits[0];
 
         if ( is_wp_error( $response ) || empty($responseData) ) {
             return rest_ensure_response( $data );
@@ -65,10 +65,27 @@ class SkiResortBlockSearchController {
      */
     public function prepare_item_for_response( $item, $request ) {
         // $schema = $this->get_search_schema( $request );
+        $weatherData = $item->_source->conditions->forecast->today->top;
+        $images = $item->_source->images;
 
         $data = [
-            'name' => esc_attr($item->name),
-            'site_path' => esc_attr($item->site_path)
+            'name' => esc_attr($item->_source->name),
+            'address' => esc_attr($item->_source->contact->address),
+            'region' => esc_attr($item->_source->region[0]),
+            'last_updated' => date_i18n("d.m.Y - H:i", strtotime(esc_attr($item->_source->last_updated))),
+            'weather' => [
+                'description' => esc_attr($weatherData->condition_description),
+                'temperature' => esc_attr($weatherData->temperature->value),
+                'icon_id' => esc_attr($weatherData->symbol->fnugg_id)
+            ],
+            'wind' => [
+                'mps' => $weatherData->wind->mps,
+                'description' => $weatherData->wind->speed
+            ],
+            'images' => [
+                'mobile' => $images->mobile->scale1->cover,
+                'default' => $images->image_16_9_s
+            ]
         ];
 
         return rest_ensure_response( $data );
