@@ -54,7 +54,7 @@ class SkiResortBlockSearchController {
         }
 
         $res = $this->prepare_item_for_response( $responseData, $request );
-        $data[] = $this->prepare_response_for_collection( $res );
+        $data['data'] = $this->prepare_response_for_collection( $res );
 
         // Return all of our comment response data.
         return rest_ensure_response( $data );
@@ -65,14 +65,15 @@ class SkiResortBlockSearchController {
      */
     public function prepare_item_for_response( $item, $request ) {
         // $schema = $this->get_search_schema( $request );
-        $weatherData = $item->_source->conditions->forecast->today->top;
-        $images = $item->_source->images;
+        $data = $item->_source;
+        $weatherData = $data->conditions->forecast->today->top;
+        $images = $data->images;
 
-        $data = [
-            'name' => esc_attr($item->_source->name),
-            'address' => esc_attr($item->_source->contact->address),
-            'region' => esc_attr($item->_source->region[0]),
-            'last_updated' => date_i18n("d.m.Y - H:i", strtotime(esc_attr($item->_source->last_updated))),
+        $response = [
+            'name' => esc_attr($data->name),
+            'address' => esc_attr($data->contact->address),
+            'region' => esc_attr($data->region[0]),
+            'last_updated' => date_i18n("d.m.Y - H:i", strtotime(esc_attr($data->last_updated))),
             'weather' => [
                 'description' => esc_attr($weatherData->condition_description),
                 'temperature' => esc_attr($weatherData->temperature->value),
@@ -88,7 +89,7 @@ class SkiResortBlockSearchController {
             ]
         ];
 
-        return rest_ensure_response( $data );
+        return rest_ensure_response( $response );
     }
 
     /**

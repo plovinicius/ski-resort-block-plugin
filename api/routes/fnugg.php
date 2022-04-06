@@ -46,7 +46,7 @@ class SkiResortBlockSuggestController {
         $fetch = wp_remote_get( "https://api.fnugg.no/suggest/autocomplete/?q={$search}" );
         $body = wp_remote_retrieve_body( $fetch );
         $response = json_decode( $body );
-        $data = array();
+        $data['data'] = array();
 
         if ( is_wp_error( $response ) || empty($response->result) ) {
             return rest_ensure_response( $data );
@@ -54,7 +54,7 @@ class SkiResortBlockSuggestController {
 
         foreach ( $response->result as $item ) {
             $res = $this->prepare_item_for_response( $item, $request );
-            $data[] = $this->prepare_response_for_collection( $res );
+            $data['data'][] = $this->prepare_response_for_collection( $res );
         }
 
         // Return all of our comment response data.

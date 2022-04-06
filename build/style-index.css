@@ -7,11 +7,19 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+.wp-block-create-block-ski-resort-block {
+  width: 100%;
+  max-width: 500px !important;
+}
 .wp-block-create-block-ski-resort-block .srb__container {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
   overflow: hidden;
+  box-shadow: 0 0 5px 2px #f5f5f5;
+}
+.wp-block-create-block-ski-resort-block .srb__container:hover .srb__thumbnail img {
+  transform: scale(1.1);
 }
 .wp-block-create-block-ski-resort-block .srb__header {
   width: 100%;
@@ -31,6 +39,7 @@
   display: block;
   width: 100%;
   height: 250px;
+  overflow: hidden;
 }
 .wp-block-create-block-ski-resort-block .srb__thumbnail img {
   display: block;
@@ -38,6 +47,7 @@
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  transition: 0.2s linear;
 }
 .wp-block-create-block-ski-resort-block .srb__thumbnail__caption {
   width: 100%;
@@ -50,7 +60,7 @@
   align-items: center;
   color: white;
   padding: 10px;
-  background-color: rgba(51, 51, 51, 0.5);
+  background-color: rgba(51, 51, 51, 0.8);
 }
 .wp-block-create-block-ski-resort-block .srb__thumbnail__title {
   font-size: 22px;
@@ -64,7 +74,7 @@
   background-color: white;
   display: flex;
   flex-wrap: wrap;
-  padding: 15px 0;
+  padding-bottom: 15px;
 }
 .wp-block-create-block-ski-resort-block .srb__item {
   display: flex;
@@ -73,6 +83,35 @@
   justify-content: center;
   flex: 0 50%;
   padding: 20px 10px;
+}
+.wp-block-create-block-ski-resort-block .srb__item--assertive {
+  font-size: 70px;
+  color: #d1502e;
+}
+.wp-block-create-block-ski-resort-block .srb__item--weather svg {
+  width: 80px;
+  height: 80px;
+}
+.wp-block-create-block-ski-resort-block .srb__item span {
+  display: flex;
+  align-items: center;
+}
+.wp-block-create-block-ski-resort-block .srb__item span.baseline {
+  align-items: baseline;
+}
+.wp-block-create-block-ski-resort-block .srb__item div {
+  display: flex;
+}
+.wp-block-create-block-ski-resort-block .srb__item strong {
+  font-size: 30px;
+  margin-right: 10px;
+  font-weight: 500;
+}
+.wp-block-create-block-ski-resort-block .srb__icon--lighter {
+  opacity: 0.5;
+}
+.wp-block-create-block-ski-resort-block .srb__icon--lighter svg {
+  margin-right: 15px;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

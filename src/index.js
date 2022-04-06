@@ -27,9 +27,18 @@ import save from './save';
  */
 registerBlockType('create-block/ski-resort-block', {
 	attributes: {
-		search: {
-			type: 'string'
-		}
+		search: { type: 'string' },
+		name: { type: 'string' },
+		address: { type: 'string' },
+		region: { type: 'string' },
+		last_updated: { type: 'string' },
+		weather_description: { type: 'string' },
+		weather_temperature: { type: 'string' },
+		weather_icon_id: { type: 'string' },
+		wind_mps: { type: 'number' },
+		wind_description: { type: 'string' },
+		images_mobile: { type: 'string' },
+		images_default: { type: 'string' },
 	},
 
 	/**

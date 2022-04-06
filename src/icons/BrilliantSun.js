@@ -1,6 +1,6 @@
 function IconBrillantSun() {
     return (
-        <>
+        <span>
             <svg width="60px" height="50px" viewBox="0 0 60 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
             <defs></defs>
             <g id="weather-icons-new" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -17,8 +17,8 @@ function IconBrillantSun() {
                     <path d="M17.3993333,40.1979661 C17.286,40.1979661 17.172,40.1586441 17.078,40.079322 C16.8666667,39.8989831 16.8386667,39.5783051 17.016,39.3627119 L21.9253333,33.4108475 C22.102,33.1952542 22.4173333,33.1667797 22.6293333,33.3477966 C22.8413333,33.5281356 22.8686667,33.8488136 22.6913333,34.0644068 L17.7826667,40.0162712 C17.6833333,40.1362712 17.542,40.1979661 17.3993333,40.1979661" id="Fill-12"></path>
                 </g>
             </g>
-            </svg>
-        </>
+        </svg>
+        </span>
     );
 }
 

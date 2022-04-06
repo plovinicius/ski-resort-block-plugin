@@ -48,7 +48,8 @@ export default function Edit({ attributes, setAttributes }) {
         await apiFetch({
             path: `/ski-resort-block/v1/resorts/suggest?q=${search}`
         }).then((response) => {
-            const res = response.map((item) => {
+            const { data } = response;
+            const res = data.map((item) => {
                 return {
                     value: item.name,
                     label: item.name
@@ -59,6 +60,16 @@ export default function Edit({ attributes, setAttributes }) {
         }).catch((error) => {
             console.error(error);
             setResorts([]);
+        });
+    }
+
+    async function doGetResortInfo(resort) {
+        return await apiFetch({
+            path: `/ski-resort-block/v1/resorts/search?q=${resort}`
+        }).then(({ data }) => {
+            return data;
+        }).catch((error) => {
+            return null;
         });
     }
  
@@ -72,15 +83,32 @@ export default function Edit({ attributes, setAttributes }) {
         return inputValue;
     };
  
-    function handleOnChange(item) {
+    async function handleOnChange(item) {
+        const resortInfo = await doGetResortInfo(item.value);
+
         setAttributes({ search: item.value });
+        saveSelectedData(resortInfo);
+    }
+
+    function saveSelectedData(resortInfo) {
+        setAttributes({ 
+            name: resortInfo?.name,
+            address: resortInfo?.address,
+            region: resortInfo?.region,
+            last_updated: resortInfo?.last_updated,
+            weather_description: resortInfo?.weather?.description,
+            weather_temperature: resortInfo?.weather?.temperature,
+            weather_icon_id: resortInfo?.weather?.icon_id,
+            wind_mps: Number(resortInfo?.wind?.mps),
+            wind_description: resortInfo?.wind?.description,
+            images_mobile: resortInfo?.images?.mobile,
+            images_default: resortInfo?.images?.default
+        });
     }
  
     return (
         <div {...useBlockProps()}>
             <div>
-                {/* <pre>{attributes.search}</pre> */}
-
                 <Select
                     isSearchable
                     defaultInputValue={attributes.search}
