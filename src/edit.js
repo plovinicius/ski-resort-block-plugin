@@ -36,17 +36,18 @@ import './editor.scss';
   */
 export default function Edit({ attributes, setAttributes }) {
     const [resorts, setResorts] = useState([]);
+    const debounceInputChange = useDebounce(handleInputChange, 200);
 
     useEffect(() => {
         const { search } = attributes;
         if (search) {
-            doGetSuggest(search);
+            doGetAutocomplete(search);
         }
     }, []);
  
-    async function doGetSuggest(search) {
+    async function doGetAutocomplete(search) {
         await apiFetch({
-            path: `/ski-resort-block/v1/resorts/suggest?q=${search}`
+            path: `/ski-resort-block/v1/resorts/autocomplete?q=${search}`
         }).then((response) => {
             const { data } = response;
             const res = data.map((item) => {
@@ -77,7 +78,7 @@ export default function Edit({ attributes, setAttributes }) {
         const inputValue = newValue.replace(/\W/g, '');
 
         if (inputValue) {
-            doGetSuggest(inputValue);
+            doGetAutocomplete(inputValue);
         }
  
         return inputValue;
@@ -113,7 +114,7 @@ export default function Edit({ attributes, setAttributes }) {
                     isSearchable
                     defaultInputValue={attributes.search}
                     defaultValue={attributes.search}
-                    onInputChange={handleInputChange}
+                    onInputChange={debounceInputChange}
                     onChange={handleOnChange}
                     options={resorts}
                 />
