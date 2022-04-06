@@ -9,8 +9,10 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       ski-resort-block
  *
- * @package           create-block
+ * @package CreateBlock
  */
+
+require_once WP_PLUGIN_DIR . "/ski-resort-block/Api/routes.php"; // SkiResortCustomRoutes
 
 /**
  * Registers the block using the metadata loaded from the `block.json` file.
@@ -25,6 +27,13 @@ function create_block_ski_resort_block_block_init() {
 
 add_action( 'init', 'create_block_ski_resort_block_block_init' );
 
+// Load routes class
+require_once __DIR__ .'/Api/routes.php';
 
-require_once __DIR__ .'/api/routes/fnugg.php';
-require_once __DIR__ .'/api/routes/search.php';
+// Function to register our new routes from the controller.
+function prefix_register_my_rest_routes() {
+    $routes = new SkiResortCustomRoutes();
+    $routes->register_routes();
+}
+
+add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );

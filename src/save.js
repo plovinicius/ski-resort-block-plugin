@@ -47,8 +47,8 @@ export default function save({ attributes }) {
 		9: <IconItIsNonsense />,
 	};
 
-	function Icon({ name }) {
-		return <>{ iconsEnum[Number(name)] }</>;
+	function Icon({ icon_id }) {
+		return <>{ iconsEnum[Number(icon_id)] }</>;
 	}
 
 	return (
@@ -75,7 +75,7 @@ export default function save({ attributes }) {
 
 				<div className='srb__content'>
 					<div className='srb__item srb__item--weather'>
-						<Icon name={attributes.weather_icon_id} />
+						<Icon icon_id={attributes.weather_icon_id} />
 
 						<span>{attributes.weather_description}</span>
 					</div>
