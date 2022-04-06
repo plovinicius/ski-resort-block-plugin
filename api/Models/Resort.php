@@ -1,6 +1,8 @@
 <?php
 
-class Resort {
+require_once WP_PLUGIN_DIR . "/ski-resort-block/Api/Interfaces/ModelInterface.php";
+
+class Resort implements ModelInterface {
     private $name;
     private $address;
     private $region;
