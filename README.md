@@ -1,5 +1,5 @@
 # Ski Resort Block 
-WordPress Plugin that enable an Gutenberg Block which allows the user to search with autocomplete some resort in the FnuggAPI.
+WordPress Plugin that enable a Gutenberg Block which allows the user to search with autocomplete some resort in the FnuggAPI.
 
 After the user selects some resort and save, the front should render a card with the info from the selected resort, e.g:
 
